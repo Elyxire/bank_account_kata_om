@@ -8,6 +8,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
+
 @RestController
 @RequiredArgsConstructor
 public class BankAccountControllerImpl implements BankAccountController {
@@ -23,5 +25,11 @@ public class BankAccountControllerImpl implements BankAccountController {
     public ResponseEntity<TransactionView> withdrawMoney(TransactionDto transactionDto) {
         TransactionView transactionView = bankAccountService.withdrawMoney(transactionDto);
         return ResponseEntity.ok(transactionView);
+    }
+
+    @Override
+    public ResponseEntity<List<TransactionView>> getHistoryOperations(String type, String startDate, String endDate) {
+        List<TransactionView> transactionViews = bankAccountService.getHistoryOperations(type, startDate, endDate);
+        return ResponseEntity.ok(transactionViews);
     }
 }
