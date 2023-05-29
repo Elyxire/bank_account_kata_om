@@ -1,5 +1,6 @@
 package com.kata.bankaccount.controllers;
 
+import com.kata.bankaccount.controllers.views.TransactionView;
 import com.kata.bankaccount.dto.TransactionDto;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -11,5 +12,5 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api")
 public interface BankAccountController {
     @PostMapping("/deposit")
-    ResponseEntity<TransactionDto> depositMoney(@RequestBody TransactionDto transactionDto);
+    ResponseEntity<TransactionView> depositMoney(@RequestBody TransactionDto transactionDto);
 }

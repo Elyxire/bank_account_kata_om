@@ -35,7 +35,7 @@ public class BankAccountControllerImplTest {
     @Test
     public void depositMoney_WhenAmountIsNegative_ShouldThrowError_Test() throws Exception {
         TransactionDto transactionDto = TransactionDto.builder()
-                .amount(-100)
+                .amount(-100.0)
                 .type(TransactionType.DEPOSIT).build();
         mockMvc.perform(post("/api/deposit")
                         .contentType(MediaType.APPLICATION_JSON)
@@ -47,10 +47,7 @@ public class BankAccountControllerImplTest {
     @Test
     public void depositMoneyTest_WhenAmountIsPositive_ShouldAddAmountToAccountBalance_Test() throws Exception {
         TransactionDto transactionDto = TransactionDto.builder()
-                .amount(100)
-                .type(TransactionType.DEPOSIT).build();
-        TransactionDto expectedResult = TransactionDto.builder()
-                .amount(100)
+                .amount(100.0)
                 .type(TransactionType.DEPOSIT).build();
 
         mockMvc.perform(post("/api/deposit")
