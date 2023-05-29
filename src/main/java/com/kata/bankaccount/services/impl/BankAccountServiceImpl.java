@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
 import java.util.List;
 
+import static com.kata.bankaccount.controllers.views.TransactionView.fromTransactionDTOList;
 import static com.kata.bankaccount.utils.Constants.INVALID_AMOUNT_DEPOSIT_OPERATION;
 import static com.kata.bankaccount.utils.Constants.INVALID_AMOUNT_WITHDRAW_OPERATION;
 
@@ -53,5 +54,10 @@ public class BankAccountServiceImpl implements BankAccountService {
                 .date(LocalDateTime.now()).build());
         bankAccount.setTransactions(transactions);
         return TransactionView.fromTransactionDTO(transactionDto);
+    }
+
+    @Override
+    public List<TransactionView> getHistoryOperations() {
+        return fromTransactionDTOList(bankAccount.getTransactions());
     }
 }

@@ -29,6 +29,7 @@ public class BankAccountControllerImpl implements BankAccountController {
 
     @Override
     public ResponseEntity<List<TransactionView>> getHistoryOperations() {
-        return null;
+        List<TransactionView> transactionViews = bankAccountService.getHistoryOperations();
+        return ResponseEntity.ok(transactionViews);
     }
 }
