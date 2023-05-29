@@ -21,6 +21,7 @@ public class BankAccountControllerImpl implements BankAccountController {
 
     @Override
     public ResponseEntity<TransactionView> withdrawMoney(TransactionDto transactionDto) {
-        return null;
+        TransactionView transactionView = bankAccountService.withdrawMoney(transactionDto);
+        return ResponseEntity.ok(transactionView);
     }
 }

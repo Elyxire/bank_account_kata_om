@@ -3,9 +3,11 @@ package com.kata.bankaccount.controllers.impl;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.kata.bankaccount.BankAccountApplication;
 import com.kata.bankaccount.dto.TransactionDto;
+import com.kata.bankaccount.models.BankAccount;
 import com.kata.bankaccount.models.enums.TransactionType;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -73,14 +75,8 @@ public class BankAccountControllerImplTest {
 
     @Test
     public void withdrawMoney_WhenAmountExceedAccountCurrentAmount_ShouldThrowError_Test() throws Exception {
-        TransactionDto transactionDepositDto = TransactionDto.builder()
-                .amount(100.0)
-                .type(TransactionType.DEPOSIT).build();
-        mockMvc.perform(post("/api/deposit")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(transactionDepositDto)));
         TransactionDto transactionWithdrawalDto = TransactionDto.builder()
-                .amount(150.0)
+                .amount(500.0)
                 .type(TransactionType.WITHDRAWAL).build();
         mockMvc.perform(post("/api/withdraw")
                         .contentType(MediaType.APPLICATION_JSON)
