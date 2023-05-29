@@ -5,4 +5,5 @@ import com.kata.bankaccount.dto.TransactionDto;
 
 public interface BankAccountService {
     TransactionView depositMoney(TransactionDto transactionDto);
+    TransactionView withdrawMoney(TransactionDto transactionDto);
 }

@@ -13,6 +13,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 import static com.kata.bankaccount.utils.Constants.INVALID_AMOUNT_DEPOSIT_OPERATION;
+import static com.kata.bankaccount.utils.Constants.INVALID_AMOUNT_WITHDRAW_OPERATION;
 
 @Service
 public class BankAccountServiceImpl implements BankAccountService {
@@ -32,6 +33,22 @@ public class BankAccountServiceImpl implements BankAccountService {
         transactions.add(Transaction.builder()
                 .amount(transactionDto.getAmount())
                 .type(TransactionType.DEPOSIT)
+                .balance(bankAccount.getCurrentBalance())
+                .date(LocalDateTime.now()).build());
+        bankAccount.setTransactions(transactions);
+        return TransactionView.fromTransactionDTO(transactionDto);
+    }
+
+    @Override
+    public TransactionView withdrawMoney(TransactionDto transactionDto) {
+        if(transactionDto.getAmount() < 0 || transactionDto.getAmount() > bankAccount.getCurrentBalance()) {
+            throw new BadArgumentsException(INVALID_AMOUNT_WITHDRAW_OPERATION);
+        }
+        bankAccount.setCurrentBalance(bankAccount.getCurrentBalance() - transactionDto.getAmount());
+        List<Transaction> transactions = bankAccount.getTransactions();
+        transactions.add(Transaction.builder()
+                .amount(transactionDto.getAmount())
+                .type(TransactionType.WITHDRAWAL)
                 .balance(bankAccount.getCurrentBalance())
                 .date(LocalDateTime.now()).build());
         bankAccount.setTransactions(transactions);
