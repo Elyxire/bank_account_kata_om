@@ -28,8 +28,8 @@ public class BankAccountControllerImpl implements BankAccountController {
     }
 
     @Override
-    public ResponseEntity<List<TransactionView>> getHistoryOperations() {
-        List<TransactionView> transactionViews = bankAccountService.getHistoryOperations();
+    public ResponseEntity<List<TransactionView>> getHistoryOperations(String type, String startDate, String endDate) {
+        List<TransactionView> transactionViews = bankAccountService.getHistoryOperations(type, startDate, endDate);
         return ResponseEntity.ok(transactionViews);
     }
 }

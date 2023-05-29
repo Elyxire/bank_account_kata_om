@@ -8,5 +8,5 @@ import java.util.List;
 public interface BankAccountService {
     TransactionView depositMoney(TransactionDto transactionDto);
     TransactionView withdrawMoney(TransactionDto transactionDto);
-    List<TransactionView> getHistoryOperations();
+    List<TransactionView> getHistoryOperations(String type, String startDate, String endDate);
 }

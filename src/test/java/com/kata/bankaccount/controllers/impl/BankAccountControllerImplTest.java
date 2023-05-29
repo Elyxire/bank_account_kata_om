@@ -130,4 +130,28 @@ public class BankAccountControllerImplTest {
                 .andExpect(jsonPath("$[0].amount", is(100.0)));
     }
 
+    @Test
+    public void getHistoryOperations_withFilter_ShouldReturnAllTransactions_Test() throws Exception {
+        TransactionDto transactionDepositDto = TransactionDto.builder()
+                .amount(100.0)
+                .type(TransactionType.DEPOSIT).build();
+        mockMvc.perform(post("/api/deposit")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(transactionDepositDto)));
+        TransactionDto transactionWithdrawalDto = TransactionDto.builder()
+                .amount(50.0)
+                .type(TransactionType.WITHDRAWAL).build();
+        mockMvc.perform(post("/api/withdraw")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(transactionWithdrawalDto)));
+
+        mockMvc.perform(get("/api/history")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .param("type", TransactionType.WITHDRAWAL.toString()))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$", hasSize(1)))
+                .andExpect(jsonPath("$[0].type", is(TransactionType.WITHDRAWAL.toString())))
+                .andExpect(jsonPath("$[0].amount", is(50.0)));
+    }
+
 }

@@ -17,5 +17,5 @@ public interface BankAccountController {
     ResponseEntity<TransactionView> withdrawMoney(@RequestBody TransactionDto transactionDto);
 
     @GetMapping("/history")
-    ResponseEntity<List<TransactionView>> getHistoryOperations();
+    ResponseEntity<List<TransactionView>> getHistoryOperations(@RequestParam(required = false) String type, @RequestParam(required = false) String startDate, @RequestParam(required = false) String endDate);
 }

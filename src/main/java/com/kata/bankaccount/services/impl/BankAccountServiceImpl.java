@@ -10,7 +10,9 @@ import com.kata.bankaccount.services.BankAccountService;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static com.kata.bankaccount.controllers.views.TransactionView.fromTransactionDTOList;
 import static com.kata.bankaccount.utils.Constants.INVALID_AMOUNT_DEPOSIT_OPERATION;
@@ -57,7 +59,13 @@ public class BankAccountServiceImpl implements BankAccountService {
     }
 
     @Override
-    public List<TransactionView> getHistoryOperations() {
-        return fromTransactionDTOList(bankAccount.getTransactions());
+    public List<TransactionView> getHistoryOperations(String type, String startDate, String endDate) {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+        return fromTransactionDTOList(bankAccount.getTransactions()
+                .stream()
+                .filter(t -> type == null || t.getType().toString().equals(type))
+                .filter(t -> startDate == null || t.getDate().isAfter(LocalDateTime.parse(startDate, formatter)))
+                .filter(t -> endDate == null || t.getDate().isBefore(LocalDateTime.parse(endDate, formatter)))
+                .collect(Collectors.toList()));
     }
 }
